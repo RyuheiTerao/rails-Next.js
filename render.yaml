@@ -1,29 +1,7 @@
 services:
-  - name: db
-    env: 'docker'
-    region: singapore
-    plan: free
-    dockerFile: Dockerfile
-    healthCheckPath: /
-    rootDir: backend/app
-    envVars:
-      - key: MYSQL_ROOT_PASSWORD
-        value: password
-
-  - name: backend
-    env: 'docker'
-    dockerFile: Dockerfile
-    dockerContext: backend
-    envVars:
-      - key: RAILS_ENV
-        value: production
-    startCommand: 'bundle exec rails s -p 3000 -b 0.0.0.0'
-    rootDir: backend/app
-    autoDeploy: true
-    healthCheckPath: /
-
-  - name: frontend
-    env: 'docker'
+  - type: web
+    name: frontend
+    env: docker
     dockerFile: Dockerfile
     dockerContext: frontend
     startCommand: 'yarn dev'
@@ -34,6 +12,28 @@ services:
       - key: PORT
         value: 3000
 
+  - type: worker
+    name: backend
+    env: docker
+    dockerFile: Dockerfile
+    dockerContext: backend
+    envVars:
+      - key: RAILS_ENV
+        value: production
+    startCommand: 'bundle exec rails s -p 3000 -b 0.0.0.0'
+    rootDir: backend/app
+    autoDeploy: true
+    healthCheckPath: /
+
 databases:
-  - name: db
-    ipAllowList: []  # Allow internal connections only
+  - type: mysql
+    name: db
+    env: docker
+    plan: free
+    region: singapore
+    dockerFile: Dockerfile
+    rootDir: backend/app
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        value: password
+    ipAllowList: []

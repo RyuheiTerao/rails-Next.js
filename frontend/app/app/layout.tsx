@@ -3,6 +3,9 @@ import { Cormorant_Garamond } from 'next/font/google'
 import "./globals.css";
 import Header from './ui/header';
 import Footer from './ui/footer';
+import { ApolloProvider } from '@/components/ApolloProvider';
+import { FlashProvider } from '@/components/ui/FlashProvider';
+
 
 const libre_franklin = Libre_Franklin({
   subsets: ['latin'],
@@ -25,9 +28,13 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={libre_franklin.variable + ' ' + cormorant_garamond.variable}>
-      <Header />
-      {children}
-      <Footer />
+        <ApolloProvider>
+          <Header />
+            <FlashProvider>
+              {children}
+            </FlashProvider>
+          <Footer />
+        </ApolloProvider>
       </body>
     </html>
   )

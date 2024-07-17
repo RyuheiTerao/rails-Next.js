@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useFlash } from "@/components/ui/FlashProvider";
 
 const CREATE_USER = gql`
-  mutation CreateUser($name: String!, $email: String!) {
-    createUser(input: { name: $name, email: $email }) {
+  mutation CreateUser($name: String!, $email: String!, $password: String!, $password_confirmation: String!) {
+    createUser(input: { name: $name, email: $email, password: $password, password_confirmation: $password_confirmation }) {
       user {
         id
         name
@@ -29,6 +29,8 @@ const GET_USERS = gql`
 export default function CreateUser() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password_confirmation, setPasswordConfirmation] = useState("");
   const { setFlashMessage } = useFlash();
 
   const [createUser, { loading }] = useMutation(CREATE_USER, {
@@ -55,7 +57,7 @@ export default function CreateUser() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    createUser({ variables: { name, email } });
+    createUser({ variables: { name, email, password, password_confirmation } });
   };
 
   return (
@@ -78,6 +80,20 @@ export default function CreateUser() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Email"
                   type="email"
+                  required
+                  className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                <input
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  required
+                  className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                <input
+                  value={password_confirmation}
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  placeholder="Password_confirmation"
                   required
                   className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 />

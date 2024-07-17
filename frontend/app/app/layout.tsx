@@ -5,7 +5,7 @@ import Header from './ui/header';
 import Footer from './ui/footer';
 import { ApolloProvider } from '@/components/ApolloProvider';
 import { FlashProvider } from '@/components/ui/FlashProvider';
-
+import { FlashMessage } from '@/components/ui/FlashMessage'
 
 const libre_franklin = Libre_Franklin({
   subsets: ['latin'],
@@ -31,6 +31,7 @@ export default function RootLayout({
         <ApolloProvider>
           <Header />
             <FlashProvider>
+            <FlashMessage />
               {children}
             </FlashProvider>
           <Footer />

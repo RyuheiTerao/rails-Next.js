@@ -2,12 +2,14 @@ module Mutations
   class CreateUser < BaseMutation
     argument :name, String, required: true
     argument :email, String, required: true
+    argument :password, String, required: true
+    argument :password_confirmation, String, required: true
 
     field :user, Types::UserType, null: true
     field :errors, [String], null: false
 
-    def resolve(name:, email:)
-      user = User.new(name: name, email: email)
+    def resolve(name:, email:, password:, password_confirmation:)
+      user = User.new(name: name, email: email, password: password, password_confirmation: password_confirmation)
       if user.save
         {
           user: user,

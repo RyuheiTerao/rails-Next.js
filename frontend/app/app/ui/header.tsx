@@ -87,7 +87,10 @@ export default function Header() {
   )
 }
 
-function MountainIcon(props) {
+
+interface MountainIconProps extends React.SVGProps<SVGSVGElement> {}
+
+function MountainIcon(props: MountainIconProps) {
   return (
     <svg
       {...props}
@@ -106,8 +109,9 @@ function MountainIcon(props) {
   )
 }
 
+interface SearchIconProps extends React.SVGProps<SVGSVGElement> {}
 
-function SearchIcon(props) {
+function SearchIcon(props: SearchIconProps) {
   return (
     <svg
       {...props}
